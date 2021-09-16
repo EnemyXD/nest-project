@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { IBookRepository } from './book-repository.interface';
 import { BookRepositoryService } from './book-repository.service';
 
@@ -7,7 +7,7 @@ export class BookRepositoryController {
   constructor(private BookRepositoryService: BookRepositoryService) {}
 
   @Post()
-  async create(Book: IBookRepository) {
+  async create(@Body() Book: IBookRepository) {
     console.log(Book);
     return this.BookRepositoryService.create(Book);
   }

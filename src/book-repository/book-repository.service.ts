@@ -3,13 +3,13 @@ import { IBookRepository } from './book-repository.interface';
 
 @Injectable()
 export class BookRepositoryService {
-  private readonly BookRepository: IBookRepository[] = [];
+  public books: IBookRepository[] = [];
 
   create(Book: IBookRepository) {
-    this.BookRepository.push(Book);
+    this.books.push(Book);
   }
 
   findAll(): IBookRepository[] {
-    return this.BookRepository;
+    return this.books;
   }
 }
