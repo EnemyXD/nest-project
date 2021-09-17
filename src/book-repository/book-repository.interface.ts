@@ -1,4 +1,5 @@
 export interface IBookRepository {
-  id: string;
+  title: string;
   author: string;
+  description: string;
 }
