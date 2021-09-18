@@ -7,7 +7,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 @Module({
   imports: [
     BookRepositoryModule,
-    MongooseModule.forRoot(process.env.SERVER_PORT),
+    MongooseModule.forRoot(process.env.DB_HOST, ,{
+      user: process.env.DB_USENAME,
+      pass: process.env.DB_PASSWORD,
+      dbName: 'book-repository'
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
