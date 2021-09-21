@@ -28,14 +28,14 @@ export class BookRepositoryController {
 
   @Put(':id')
   async update(
-    @Param() id: string,
+    @Param('id') id: string,
     @Body() Book: IBookRepository
   ): Promise<BookRepositoryDocument> {
     return this.BookRepositoryService.update(id, Book);
   }
 
   @Delete(':id')
-  async delete(@Param() id: string): Promise<BookRepositoryDocument> {
+  async delete(@Param('id') id: string): Promise<BookRepositoryDocument> {
     return this.BookRepositoryService.delete(id);
   }
 }

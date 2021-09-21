@@ -28,6 +28,7 @@ export class BookRepositoryService {
   }
 
   update(id: string, data: IBookRepository): Promise<BookRepositoryDocument> {
+    console.log(id);
     const book = this.BookRepositoryModel.findOneAndUpdate(
       { _id: id },
       data
@@ -37,7 +38,7 @@ export class BookRepositoryService {
   }
 
   delete(id: string): Promise<BookRepositoryDocument> {
-    const book = this.BookRepositoryModel.findOneAndRemove({ _id: id }).exec();
+    const book = this.BookRepositoryModel.findByIdAndDelete(id).exec();
 
     return book;
   }
