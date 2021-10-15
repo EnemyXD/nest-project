@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './book-repository/providers/exceptionFilters/HttpExceptionFilter';
-import { DtoInterceptor } from './book-repository/providers/interceptors/DTO.interceptor';
+import { HttpExceptionFilter } from './providers/exceptionFilters/HttpExceptionFilter';
+import { DtoInterceptor } from './providers/interceptors/DTO.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

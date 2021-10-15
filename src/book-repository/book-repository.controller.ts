@@ -4,37 +4,40 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Post,
   Put,
-  UseInterceptors,
+  UseGuards,
   UsePipes,
 } from '@nestjs/common';
 import { IBookRepository } from './book-repository.interface';
 import { BookRepositoryDocument } from './book-repository.mongoose-model';
 import { BookRepositoryService } from './book-repository.service';
-import { DtoInterceptor } from './providers/interceptors/DTO.interceptor';
-import { JoiValidateScheme } from './providers/pipes/JoiScheme';
-import { JoiValidationPipe } from './providers/pipes/JoiValidationPipe';
+import { JoiBookRepositoryScheme } from './JoiValidation/Joi.BookRepository.Scheme';
+import { JoiValidationPipe } from '../providers/pipe/JoiValidationPipe';
+import { AuthGuard } from 'src/providers/guards/auth.guard';
+import { JwtAuthGuard } from 'src/providers/guards/jwtAuth.guard';
 
 @Controller('book-repository')
 export class BookRepositoryController {
   constructor(private BookRepositoryService: BookRepositoryService) {}
 
   @Post()
-  @UsePipes(new JoiValidationPipe(JoiValidateScheme))
+  @UseGuards(JwtAuthGuard)
+  @UsePipes(new JoiValidationPipe(JoiBookRepositoryScheme))
   async create(@Body() Book: IBookRepository): Promise<BookRepositoryDocument> {
     console.log(Book);
     return this.BookRepositoryService.create(Book);
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   async findAll(): Promise<BookRepositoryDocument[]> {
     return this.BookRepositoryService.findAll();
   }
 
   @Put(':id')
-  @UsePipes(new JoiValidationPipe(JoiValidateScheme))
+  @UseGuards(JwtAuthGuard)
+  @UsePipes(new JoiValidationPipe(JoiBookRepositoryScheme))
   async update(
     @Param('id') id: string,
     @Body() Book: IBookRepository
@@ -43,6 +46,7 @@ export class BookRepositoryController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   async delete(@Param('id') id: string): Promise<BookRepositoryDocument> {
     return this.BookRepositoryService.delete(id);
   }

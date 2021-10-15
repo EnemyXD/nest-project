@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BookRepositoryModule } from './book-repository/book-repository.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       dbName: 'book-repository',
       useFindAndModify: false,
     }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
