@@ -4,6 +4,7 @@ import {
   Injectable,
   InternalServerErrorException,
   NestInterceptor,
+  NotFoundException,
 } from '@nestjs/common';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 
@@ -18,6 +19,8 @@ export class DtoInterceptor implements NestInterceptor {
         };
       }),
       catchError((e) => {
+        if (e.status === 404)
+          return throwError(new NotFoundException(e.response.message));
         return throwError(new InternalServerErrorException());
       })
     );

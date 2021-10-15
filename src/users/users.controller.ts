@@ -19,7 +19,7 @@ export class UsersController {
 
   @Post('sign-up')
   @UsePipes(new JoiValidationPipe(JoiUserScheme))
-  async createUser(@Body() User: IUser): Promise<UserDocument> {
+  async createUser(@Body() User: IUser): Promise<UserDocument | string> {
     return this.UsersService.create(User);
   }
 
@@ -33,5 +33,11 @@ export class UsersController {
   @UsePipes(new JoiValidationPipe(JoiUserScheme))
   async signIn(@Body() User: IUser): Promise<string> {
     return this.UsersService.signIn(User);
+  }
+
+  @Post('delete')
+  @UseGuards(JwtAuthGuard)
+  async deleteUser(@Body() id: { id: string }): Promise<boolean> {
+    return this.UsersService.deleteUser(id.id);
   }
 }
