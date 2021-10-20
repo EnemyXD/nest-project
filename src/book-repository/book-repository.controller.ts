@@ -14,8 +14,7 @@ import { BookRepositoryDocument } from './book-repository.mongoose-model';
 import { BookRepositoryService } from './book-repository.service';
 import { JoiBookRepositoryScheme } from './JoiValidation/Joi.BookRepository.Scheme';
 import { JoiValidationPipe } from '../providers/pipe/JoiValidationPipe';
-import { AuthGuard } from 'src/providers/guards/auth.guard';
-import { JwtAuthGuard } from 'src/providers/guards/jwtAuth.guard';
+import { JwtAuthGuard } from '../providers/guards/jwtAuth.guard';
 
 @Controller('book-repository')
 export class BookRepositoryController {

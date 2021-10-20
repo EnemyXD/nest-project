@@ -1,18 +1,49 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { INestApplication } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Test } from '@nestjs/testing';
 import { BookRepositoryController } from './book-repository.controller';
+import { BookRepositoryModule } from './book-repository.module';
+import {
+  BookRepository,
+  BookRepositorySchema,
+} from './book-repository.mongoose-model';
+import { BookRepositoryService } from './book-repository.service';
+import * as request from 'supertest';
+import { JwtAuthGuard } from '../providers/guards/jwtAuth.guard';
 
-describe('BookRepositoryController', () => {
-  let controller: BookRepositoryController;
-
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+describe('BookRepositortController', () => {
+  let app: INestApplication;
+  let service: BookRepositoryService;
+  beforeAll(async () => {
+    const module = await Test.createTestingModule({
+      imports: [
+        BookRepositoryModule,
+        MongooseModule.forRoot(process.env.DB_HOST, {
+          user: process.env.DB_USERNAME,
+          pass: process.env.DB_PASSWORD,
+          dbName: 'book-repository',
+          useFindAndModify: false,
+        }),
+        MongooseModule.forFeature([
+          { name: BookRepository.name, schema: BookRepositorySchema },
+        ]),
+      ],
+      providers: [BookRepositoryService],
       controllers: [BookRepositoryController],
-    }).compile();
-
-    controller = module.get<BookRepositoryController>(BookRepositoryController);
+    })
+      .overrideGuard(JwtAuthGuard)
+      .useValue(null)
+      .compile();
+    service = module.get<BookRepositoryService>(BookRepositoryService);
+    app = module.createNestApplication();
+    app.init();
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  it('GET books', () => {
+    return request(app.getHttpServer()).get('/book-repository').expect(200);
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 });
