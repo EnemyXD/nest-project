@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { BookRepositoryModule } from './book-repository/book-repository.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
+import { BookCommentModule } from './book-comment/book-comment.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { UsersModule } from './users/users.module';
       useFindAndModify: false,
     }),
     UsersModule,
+    BookCommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

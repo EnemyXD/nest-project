@@ -17,5 +17,6 @@ services:
       - DB_PASSWORD=12345
       - SERVER_PORT=3000
       - DB_HOST=mongodb://mongodb:27017
+      - TOKEN=jwt
     depends_on:
       - mongodb
