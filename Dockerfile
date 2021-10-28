@@ -8,4 +8,4 @@ COPY tsconfig.build.json ./
 COPY tsconfig.json ./
 ADD src /code/src
 
-CMD [ "npm", "run", "test" ]
+CMD [ "npm", "run", "start" ]

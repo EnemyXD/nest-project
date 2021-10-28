@@ -15,7 +15,7 @@ export class BookCommentService {
     private BookCommentModel: Model<BookCommentDocument>
   ) {}
 
-  async create(BookComment: IBookComment): Promise<BookCommentDocument> {
+  async newComment(BookComment: IBookComment): Promise<BookCommentDocument> {
     const newBookComment = await new this.BookCommentModel(BookComment);
     return newBookComment.save();
   }
@@ -23,6 +23,11 @@ export class BookCommentService {
   async findAllComment(): Promise<BookCommentDocument[]> {
     const BookComments = await this.BookCommentModel.find().exec();
     return BookComments;
+  }
+
+  async findCommentByBookID(id: string): Promise<BookCommentDocument[]> {
+    const BookComment = await this.BookCommentModel.find({ bookID: id }).exec();
+    return BookComment;
   }
 
   async deleteComment(_id: string): Promise<boolean> {

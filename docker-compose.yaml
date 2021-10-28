@@ -12,6 +12,7 @@ services:
     restart: always
     ports:
       - 3000:3000
+      - 3001:3001
     environment:
       - DB_USERNAME=root
       - DB_PASSWORD=12345

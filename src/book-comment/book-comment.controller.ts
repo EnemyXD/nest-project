@@ -1,8 +1,10 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
+import { WebSocketGateway } from '@nestjs/websockets';
 import { IBookComment } from './book-comment.intarface';
 import { BookCommentDocument } from './book-comment.mongoose-model';
 import { BookCommentService } from './book-comment.service';
 
+@WebSocketGateway()
 @Controller('book-comment')
 export class BookCommentController {
   constructor(private BookCommentService: BookCommentService) {}
@@ -11,7 +13,7 @@ export class BookCommentController {
   async addComment(
     @Body() BookComment: IBookComment
   ): Promise<BookCommentDocument> {
-    return this.BookCommentService.create(BookComment);
+    return this.BookCommentService.newComment(BookComment);
   }
 
   @Get('all')

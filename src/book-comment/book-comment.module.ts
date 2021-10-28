@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BookCommentController } from './book-comment.controller';
+import { BookCommentGateway } from './book-comment.gateway';
 import { BookComment, BookCommentSchema } from './book-comment.mongoose-model';
 import { BookCommentService } from './book-comment.service';
 
@@ -11,6 +12,6 @@ import { BookCommentService } from './book-comment.service';
     ]),
   ],
   controllers: [BookCommentController],
-  providers: [BookCommentService],
+  providers: [BookCommentService, BookCommentGateway],
 })
 export class BookCommentModule {}
