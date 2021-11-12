@@ -20,6 +20,48 @@ import { JwtAuthGuard } from '../providers/guards/jwtAuth.guard';
 export class BookRepositoryController {
   constructor(private BookRepositoryService: BookRepositoryService) {}
 
+  @Post('rd')
+  @UseGuards(JwtAuthGuard)
+  @UsePipes(new JoiValidationPipe(JoiBookRepositoryScheme))
+  async createRD(
+    @Body() Book: IBookRepository
+  ): Promise<BookRepositoryDocument> {
+    return this.BookRepositoryService.createRD(Book);
+  }
+
+  @Get('all-rd')
+  @UseGuards(JwtAuthGuard)
+  async getAllRD(): Promise<any> {
+    return this.BookRepositoryService.getAllRD();
+  }
+
+  @Get('id-rd')
+  @UseGuards(JwtAuthGuard)
+  async getIDRD(@Body() id: string): Promise<any> {
+    return this.BookRepositoryService.getIDRD(id);
+  }
+
+  @Post('fd')
+  @UseGuards(JwtAuthGuard)
+  @UsePipes(new JoiValidationPipe(JoiBookRepositoryScheme))
+  async createFD(
+    @Body() Book: IBookRepository
+  ): Promise<BookRepositoryDocument> {
+    return this.BookRepositoryService.createFD(Book);
+  }
+
+  @Get('all-fd')
+  @UseGuards(JwtAuthGuard)
+  async getAllFD(): Promise<any> {
+    return this.BookRepositoryService.getAllFD();
+  }
+
+  @Get('id-fd')
+  @UseGuards(JwtAuthGuard)
+  async getIDFD(@Body() id: string): Promise<any> {
+    return this.BookRepositoryService.getIDFD(id);
+  }
+
   @Post()
   @UseGuards(JwtAuthGuard)
   @UsePipes(new JoiValidationPipe(JoiBookRepositoryScheme))

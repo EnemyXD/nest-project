@@ -6,6 +6,7 @@ import {
   BookRepository,
   BookRepositoryDocument,
 } from './book-repository.mongoose-model';
+import admin from 'firebase-admin';
 
 @Injectable()
 export class BookRepositoryService {
@@ -15,21 +16,24 @@ export class BookRepositoryService {
     @InjectConnection() private Connection: Connection
   ) {}
 
-  create(Book: IBookRepository): Promise<BookRepositoryDocument> {
+  async create(Book: IBookRepository): Promise<BookRepositoryDocument> {
     const book = new this.BookRepositoryModel(Book);
 
-    return book.save();
+    return await book.save();
   }
 
-  findAll(): Promise<BookRepositoryDocument[]> {
-    const book = this.BookRepositoryModel.find().exec();
+  async findAll(): Promise<BookRepositoryDocument[]> {
+    const book = await this.BookRepositoryModel.find().exec();
 
     return book;
   }
 
-  update(id: string, data: IBookRepository): Promise<BookRepositoryDocument> {
+  async update(
+    id: string,
+    data: IBookRepository
+  ): Promise<BookRepositoryDocument> {
     console.log(id);
-    const book = this.BookRepositoryModel.findOneAndUpdate(
+    const book = await this.BookRepositoryModel.findOneAndUpdate(
       { _id: id },
       data
     ).exec();
@@ -37,9 +41,47 @@ export class BookRepositoryService {
     return book;
   }
 
-  delete(id: string): Promise<BookRepositoryDocument> {
-    const book = this.BookRepositoryModel.findByIdAndDelete(id).exec();
+  async delete(id: string): Promise<BookRepositoryDocument> {
+    const book = await this.BookRepositoryModel.findByIdAndDelete(id).exec();
 
+    return book;
+  }
+
+  async createRD(Book: IBookRepository): Promise<any> {
+    const db = admin.database();
+    const book = await db.ref('bookRepository').push(Book);
+    return book;
+  }
+
+  async getAllRD(): Promise<any> {
+    const db = admin.database();
+    const books = await db.ref('bookRepository').once('value');
+    return books;
+  }
+
+  async getIDRD(id: string): Promise<any> {
+    console.log(id);
+    const db = admin.database();
+    const book = await db.ref('bookRepository').child(id).once('value');
+    console.log(book);
+    return book;
+  }
+
+  async createFD(Book: IBookRepository): Promise<any> {
+    const dbFS = admin.firestore();
+    const book = await dbFS.collection('bookRepository').add(Book);
+    return book;
+  }
+
+  async getAllFD(): Promise<any> {
+    const dbFS = admin.firestore();
+    const books = await dbFS.collection('bookRepository').get();
+    return books;
+  }
+
+  async getIDFD(id: string): Promise<any> {
+    const dbFS = admin.firestore();
+    const book = await dbFS.collection('bookRepositort').doc(id).get();
     return book;
   }
 }

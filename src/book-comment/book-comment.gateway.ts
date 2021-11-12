@@ -17,7 +17,9 @@ import { IBookComment } from './book-comment.intarface';
 import { BookCommentDocument } from './book-comment.mongoose-model';
 import { BookCommentService } from './book-comment.service';
 
-@WebSocketGateway(3001, { namespace: 'book-comment' })
+@WebSocketGateway(parseInt(process.env.GATEWAY_PORT), {
+  namespace: 'book-comment',
+})
 export class BookCommentGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {

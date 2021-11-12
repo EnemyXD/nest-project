@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Logger,
   Post,
   UseGuards,
   UsePipes,
@@ -16,6 +17,8 @@ import { UsersService } from './users.service';
 @Controller('users')
 export class UsersController {
   constructor(private UsersService: UsersService) {}
+
+  private logger: Logger = new Logger('UsersController');
 
   @Post('sign-up')
   @UsePipes(new JoiValidationPipe(JoiUserScheme))
@@ -32,6 +35,7 @@ export class UsersController {
   @Post('sign-in')
   @UsePipes(new JoiValidationPipe(JoiUserScheme))
   async signIn(@Body() User: IUser): Promise<string> {
+    console.log(User);
     return this.UsersService.signIn(User);
   }
 

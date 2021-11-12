@@ -20,6 +20,7 @@ export class UsersService {
   ) {}
 
   async create(User: IUser): Promise<UserDocument | string> {
+    console.log(User);
     const createdUser = await this.UserModel.findOne({ login: User.login });
     if (createdUser) return 'login is busy';
     const hash = bcrypt.hashSync(User.password, salt);
