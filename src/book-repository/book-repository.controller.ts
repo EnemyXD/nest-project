@@ -35,10 +35,25 @@ export class BookRepositoryController {
     return this.BookRepositoryService.getAllRD();
   }
 
-  @Get('id-rd')
+  @Get('id-rd/:id')
   @UseGuards(JwtAuthGuard)
-  async getIDRD(@Body() id: string): Promise<any> {
+  async getIDRD(@Param('id') id: string): Promise<any> {
     return this.BookRepositoryService.getIDRD(id);
+  }
+
+  @Put('update-rd/:id')
+  @UseGuards(JwtAuthGuard)
+  async updateRD(
+    @Param('id') id: string,
+    @Body() Book: IBookRepository
+  ): Promise<any> {
+    return this.BookRepositoryService.updateRD(id, Book);
+  }
+
+  @Delete('delete-rd/:id')
+  @UseGuards(JwtAuthGuard)
+  async deleteRD(@Param('id') id: string): Promise<any> {
+    return this.BookRepositoryService.deleteRD(id);
   }
 
   @Post('fd')
@@ -56,10 +71,25 @@ export class BookRepositoryController {
     return this.BookRepositoryService.getAllFD();
   }
 
-  @Get('id-fd')
+  @Get('id-fd/:id')
   @UseGuards(JwtAuthGuard)
-  async getIDFD(@Body() id: string): Promise<any> {
+  async getIDFD(@Param('id') id: string): Promise<any> {
     return this.BookRepositoryService.getIDFD(id);
+  }
+
+  @Put('update-fd/:id')
+  @UseGuards(JwtAuthGuard)
+  async updatefD(
+    @Param('id') id: string,
+    @Body() Book: IBookRepository
+  ): Promise<any> {
+    return this.BookRepositoryService.updateFD(id, Book);
+  }
+
+  @Delete('delete-fd/:id')
+  @UseGuards(JwtAuthGuard)
+  async deletefD(@Param('id') id: string): Promise<any> {
+    return this.BookRepositoryService.deleteFD(id);
   }
 
   @Post()
